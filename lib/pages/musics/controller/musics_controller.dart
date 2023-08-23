@@ -1,3 +1,71 @@
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
-class MusicsController extends GetxController {}
+class MusicsController extends GetxController {
+  final OnAudioQuery _audioQuery = OnAudioQuery();
+  final musics = <SongModel>[].obs;
+  final loadingStatus = MusicLoadingStatus.loading.obs;
+  final currentIndex = 0.obs;
+  final playing = false.obs;
+
+  final _player = AudioPlayer();
+
+  @override
+  void onInit() {
+    getMusics();
+    once(musics, _setupPlayer);
+    super.onInit();
+  }
+
+  void getMusics({bool retryForPermission = false}) async {
+    try {
+      loadingStatus.value = MusicLoadingStatus.loading;
+
+      final hasPermission = await _audioQuery.checkAndRequest(retryRequest: retryForPermission);
+      if (hasPermission) {
+        musics.value = await _audioQuery.querySongs(
+          sortType: null,
+          orderType: OrderType.ASC_OR_SMALLER,
+          uriType: UriType.EXTERNAL,
+          ignoreCase: true,
+        );
+        loadingStatus.value = MusicLoadingStatus.success;
+      } else {
+        loadingStatus.value = MusicLoadingStatus.error;
+      }
+    } catch (e) {
+      loadingStatus.value = MusicLoadingStatus.error;
+    }
+  }
+
+  void _setupPlayer(List<SongModel> musics) async {
+    final playlist = ConcatenatingAudioSource(
+      useLazyPreparation: true,
+      children: musics.map((e) => AudioSource.file(e.data)).toList(),
+    );
+
+    await _player.setAudioSource(playlist, initialIndex: 0, initialPosition: Duration.zero);
+    _player.currentIndexStream.listen((event) {
+      currentIndex.value = event ?? currentIndex.value;
+    });
+    _player.playingStream.listen((event) {
+      playing.value = event;
+    });
+  }
+
+  void play(int index) {
+    _player.seek(Duration.zero, index: index);
+    _player.play();
+  }
+
+  void pause() {
+    _player.pause();
+  }
+}
+
+enum MusicLoadingStatus {
+  error,
+  loading,
+  success,
+}

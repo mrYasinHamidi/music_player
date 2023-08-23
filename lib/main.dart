@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: InitialBind(),
+      initialRoute: RoutesName.musics,
       getPages: _pages(),
     );
   }
