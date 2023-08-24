@@ -4,6 +4,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicsController extends GetxController {
   final OnAudioQuery _audioQuery = OnAudioQuery();
+
   final musics = <SongModel>[].obs;
   final loadingStatus = MusicLoadingStatus.loading.obs;
   final currentIndex = 0.obs;
@@ -46,6 +47,7 @@ class MusicsController extends GetxController {
     );
 
     await _player.setAudioSource(playlist, initialIndex: 0, initialPosition: Duration.zero);
+
     _player.currentIndexStream.listen((event) {
       currentIndex.value = event ?? currentIndex.value;
     });
@@ -54,13 +56,23 @@ class MusicsController extends GetxController {
     });
   }
 
-  void play(int index) {
-    _player.seek(Duration.zero, index: index);
-    _player.play();
+  void playPause(int index) async {
+    if (currentIndex.value == index) {
+      if (playing.value) {
+        await _player.pause();
+      } else {
+        await _player.play();
+      }
+    } else {
+      await _player.seek(Duration.zero, index: index);
+      await _player.play();
+    }
   }
 
-  void pause() {
-    _player.pause();
+  @override
+  void onClose() async {
+    await _player.dispose();
+    super.onClose();
   }
 }
 

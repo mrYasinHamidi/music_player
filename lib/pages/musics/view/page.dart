@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/pages/musics/controller/musics_controller.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 part 'music_list_item.dart';
 
@@ -21,9 +20,7 @@ class MusicsPage extends GetView<MusicsController> {
               ),
             MusicLoadingStatus.success => ListView.builder(
                 itemCount: controller.musics.length,
-                itemBuilder: (context, index) => MusicListItem(
-                  index: index,
-                ),
+                itemBuilder: (context, index) => MusicListItem(index: index),
               ),
           },
         ),
