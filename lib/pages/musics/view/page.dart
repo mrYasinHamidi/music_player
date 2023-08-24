@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:music_player/common/time_util.dart';
 import 'package:music_player/pages/musics/controller/musics_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

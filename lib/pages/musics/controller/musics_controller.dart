@@ -9,6 +9,7 @@ class MusicsController extends GetxController {
   final loadingStatus = MusicLoadingStatus.loading.obs;
   final currentIndex = 0.obs;
   final playing = false.obs;
+  final position = Duration.zero.obs;
 
   final _player = AudioPlayer();
 
@@ -53,6 +54,9 @@ class MusicsController extends GetxController {
     });
     _player.playingStream.listen((event) {
       playing.value = event;
+    });
+    _player.positionStream.listen((event) {
+      position.value = event;
     });
   }
 

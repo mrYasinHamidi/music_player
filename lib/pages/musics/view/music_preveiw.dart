@@ -53,9 +53,30 @@ class MusicPreview extends GetView<MusicsController> {
               ),
             ),
           ),
-          Slider(
-            value: 0.1,
-            onChanged: (value) {},
+          Obx(
+            () => Slider(
+              value: controller.position.value.inMilliseconds.toDouble(),
+              max: music.duration?.toDouble() ?? 0,
+              onChanged: (value) {},
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Obx(
+                  () => Text(
+                    TimeUtil.formatTime(controller.position.value),
+                  ),
+                ),
+                Text(
+                  TimeUtil.formatTime(
+                    Duration(milliseconds: music.duration ?? 0),
+                  ),
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
