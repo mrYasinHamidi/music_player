@@ -8,6 +8,7 @@ class MusicListItem extends GetView<MusicsController> {
   @override
   Widget build(BuildContext context) {
     final music = controller.musics.elementAt(index);
+    print('8888');
 
     return ListTile(
       leading: GestureDetector(

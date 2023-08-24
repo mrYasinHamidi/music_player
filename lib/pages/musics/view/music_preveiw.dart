@@ -14,8 +14,9 @@ class MusicPreview extends GetView<MusicsController> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: SizedBox(
               height: 50,
               child: Row(
@@ -29,13 +30,14 @@ class MusicPreview extends GetView<MusicsController> {
                         Text(
                           music.displayName ?? '',
                           overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           music.artist ?? '',
                           style: const TextStyle(
                             color: Colors.grey,
-                            fontSize: 10,
+                            fontSize: 12
                           ),
                         ),
                       ],
@@ -48,6 +50,15 @@ class MusicPreview extends GetView<MusicsController> {
                     artworkBorder: BorderRadius.circular(8),
                     artworkWidth: 40,
                     artworkHeight: 40,
+                    nullArtworkWidget: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.music_note),
+                    ),
                   )
                 ],
               ),
@@ -57,11 +68,11 @@ class MusicPreview extends GetView<MusicsController> {
             () => Slider(
               value: controller.position.value.inMilliseconds.toDouble(),
               max: music.duration?.toDouble() ?? 0,
-              onChanged: (value) {},
+              onChanged: (value) => controller.seekTo(Duration(milliseconds: value.toInt())),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

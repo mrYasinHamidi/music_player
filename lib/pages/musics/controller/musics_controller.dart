@@ -81,6 +81,10 @@ class MusicsController extends GetxController {
     _player.seekToPrevious();
   }
 
+  void seekTo(Duration position){
+    _player.seek(position);
+  }
+
   @override
   void onClose() async {
     await _player.dispose();
