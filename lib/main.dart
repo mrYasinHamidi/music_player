@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_player/common/initial_bind.dart';
 import 'package:music_player/common/routes_name.dart';
 import 'package:music_player/pages/musics/view/binding.dart';
 import 'package:music_player/pages/musics/view/page.dart';
@@ -25,7 +24,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialBinding: InitialBind(),
       debugShowCheckedModeBanner: false,
       initialRoute: RoutesName.musics,
       getPages: _pages(),
