@@ -3,7 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicsController extends GetxController {
-  final OnAudioQuery _audioQuery = OnAudioQuery();
+  final OnAudioQuery audioQuery = OnAudioQuery();
 
   final musics = <SongModel>[].obs;
   final loadingStatus = MusicLoadingStatus.loading.obs;
@@ -23,9 +23,9 @@ class MusicsController extends GetxController {
     try {
       loadingStatus.value = MusicLoadingStatus.loading;
 
-      final hasPermission = await _audioQuery.checkAndRequest(retryRequest: retryForPermission);
+      final hasPermission = await audioQuery.checkAndRequest(retryRequest: retryForPermission);
       if (hasPermission) {
-        musics.value = await _audioQuery.querySongs(
+        musics.value = await audioQuery.querySongs(
           sortType: null,
           orderType: OrderType.ASC_OR_SMALLER,
           uriType: UriType.EXTERNAL,
@@ -67,6 +67,14 @@ class MusicsController extends GetxController {
       await _player.seek(Duration.zero, index: index);
       await _player.play();
     }
+  }
+
+  void next() {
+    _player.seekToNext();
+  }
+
+  void previous() {
+    _player.seekToPrevious();
   }
 
   @override

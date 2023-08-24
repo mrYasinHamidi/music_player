@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/pages/musics/controller/musics_controller.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 part 'music_list_item.dart';
+
+part 'music_preveiw.dart';
 
 class MusicsPage extends GetView<MusicsController> {
   const MusicsPage({super.key});
@@ -24,6 +27,13 @@ class MusicsPage extends GetView<MusicsController> {
               ),
           },
         ),
+      ),
+      bottomSheet: Obx(
+        () {
+          final music = controller.musics.elementAtOrNull(controller.currentIndex.value);
+          if (music == null) return const SizedBox();
+          return MusicPreview(music: music);
+        },
       ),
     );
   }

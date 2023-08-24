@@ -10,12 +10,20 @@ class MusicListItem extends GetView<MusicsController> {
     final music = controller.musics.elementAt(index);
 
     return ListTile(
-      leading: IconButton(
-        onPressed: () => controller.playPause(index),
-        icon: Obx(
-          () => index == controller.currentIndex.value && controller.playing.value
-              ? const Icon(Icons.pause)
-              : const Icon(Icons.play_arrow),
+      leading: GestureDetector(
+        onTap: () => controller.playPause(index),
+        child: CircleAvatar(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              QueryArtworkWidget(id: music.id, type: ArtworkType.AUDIO,nullArtworkWidget: const SizedBox(),),
+              Obx(
+                () => index == controller.currentIndex.value && controller.playing.value
+                    ? const Icon(Icons.pause)
+                    : const Icon(Icons.play_arrow),
+              ),
+            ],
+          ),
         ),
       ),
       title: Text(music.displayName),
