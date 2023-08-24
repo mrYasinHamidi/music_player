@@ -30,15 +30,12 @@ class MusicPreview extends GetView<MusicsController> {
                         Text(
                           music.displayName ?? '',
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           music.artist ?? '',
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12
-                          ),
+                          style: const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
                     ),

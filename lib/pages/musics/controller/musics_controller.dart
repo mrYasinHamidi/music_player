@@ -81,7 +81,7 @@ class MusicsController extends GetxController {
     _player.seekToPrevious();
   }
 
-  void seekTo(Duration position){
+  void seekTo(Duration position) {
     _player.seek(position);
   }
 

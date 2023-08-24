@@ -8,7 +8,6 @@ class MusicListItem extends GetView<MusicsController> {
   @override
   Widget build(BuildContext context) {
     final music = controller.musics.elementAt(index);
-    print('8888');
 
     return ListTile(
       leading: GestureDetector(
@@ -17,7 +16,12 @@ class MusicListItem extends GetView<MusicsController> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              QueryArtworkWidget(id: music.id, type: ArtworkType.AUDIO,nullArtworkWidget: const SizedBox(),),
+              QueryArtworkWidget(
+                id: music.id,
+                controller: controller.audioQuery,
+                type: ArtworkType.AUDIO,
+                nullArtworkWidget: const SizedBox(),
+              ),
               Obx(
                 () => index == controller.currentIndex.value && controller.playing.value
                     ? const Icon(Icons.pause)
